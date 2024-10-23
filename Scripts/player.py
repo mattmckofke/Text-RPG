@@ -5,6 +5,7 @@ class Player:
         self.current_room = 0
         self.last_room = 0
         self.key_found = False
+        self.has_won = False
 
     def set_hp(self, n):
         self.hp = n
@@ -35,6 +36,9 @@ class Player:
 
     def has_key(self):
         return self.key_found
+    
+    def set_winner(self, b):
+        self.has_won = b
 
     def attack(self, target):
         target.set_hp(target.get_hp() - self.atk)
@@ -47,3 +51,6 @@ class Player:
     
     def has_key(self):
         return self.key_found
+    
+    def is_winner(self):
+        return self.has_won
