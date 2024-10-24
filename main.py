@@ -1,6 +1,9 @@
-from Scripts import player, rooms
+from Scripts import rooms
+from Scripts.Entities import player, giant_rat, dragon
 
-pl = player.Player()
+pl = player.player()
+gr = giant_rat.giant_rat()
+dr = dragon.dragon()
 
 rms = {
         0: rooms.start_room(pl),
@@ -24,10 +27,6 @@ def run_game():
             return
         # if you're still alive
         else:
-            # update dictionaries
-            rooms.update_ops_list(pl)
-            rooms.update_chosen_ops_list(pl)
-            
             # call the current room function
             rms[pl.get_current_room()](pl)
             
@@ -41,3 +40,10 @@ def run_game():
             
             # once input is in the range of possible options, print the next message
             print(rooms.chosen_ops_list[pl.get_current_room()][choice+1])
+            
+            # now need to update the player's current room
+            rooms.update_current_room(pl, choice)
+            
+            # update dictionaries
+            rooms.update_ops_list(pl)
+            rooms.update_chosen_ops_list(pl)

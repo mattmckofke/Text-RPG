@@ -1,4 +1,4 @@
-import player
+from Entities import player, giant_rat, dragon
 
 num_ops_list = [4, 3, 3, 4, 4]
 
@@ -22,14 +22,16 @@ chosen_ops_list = {0: {1: "You inspect the room and see nothing useful.",
                        4: "You go back to the last room."}
                    }
 
-def update_ops_list(pl):
-    if pl.killed_skeleton():
+def update_ops_list(pl, gr, d):
+    if not gr.is_alive():
         num_ops_list[2] = 4
     if pl.has_key():
         num_ops_list[4] = 5
+    if not d.is_alive():
+        num_ops_list[4] = 3
         
-def update_chosen_ops_list(pl):
-    if pl.killed_skeleton():
+def update_chosen_ops_list(pl, gr, d):
+    if not gr.is_alive():
         chosen_ops_list[2] = {1: "You inspect the room and see a door on the other side of it.",
                               2: "You drink a potion and heal yourself.",
                               3: "You attack the giant rat. (How did it get so big?)",
@@ -41,34 +43,74 @@ def update_chosen_ops_list(pl):
                               3: "You attack the dragon. (HOW STRONG IS THIS THING???)",
                               4: "You go back to the last room.",
                               5: "You use the key from the skeleton to unlock the door and walk through."}
+    if not d.is_alive():
+        chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
+                              2: "You drink a potion and heal yourself.",
+                              3: "You go to the end room.",
+                              4: "You go back to the last room."}
 
-def start_room(pl):
-    pl.current_room = 0
+def update_current_room(pl, choice):
+    if pl.current_room == 0:
+        update_start_room(pl, choice)
+    elif pl.current_room == 1:
+        update_room_1(pl, choice)
+    elif pl.current_room == 2:
+        update_room_2(pl, choice)
+    elif pl.current_room == 3:
+        update_room_3(pl, choice)
+    elif pl.current_room == 4:
+        update_room_4(pl, choice)
+
+def update_start_room(pl, choice):
+    if choice == 3:
+        pl.current_room = 1
+    elif choice == 4:
+        pl.current_room = 2
+
+def update_room_1(pl, choice):
+    if choice == 3:
+        pl.current_room = 0
+
+def update_room_2(pl, choice):
+    if choice == 3:
+        pl.current_room = 0
+    elif choice == 5:
+        pl.current_room = 3
+
+def update_room_3(pl, choice):
+    if choice == 3:
+        pl.current_room = 2
+    elif choice == 4:
+        pl.current_room = 4
+
+def update_room_4(pl, choice):
+    if choice == 3:
+        pl.current_room = 3
+
+def start_room():
     print("This is the room your adventure starts in. What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
     print("3. Go to room 1")
     print("4. Go to room 2")
     
-def room_1(pl):
-    pl.current_room = 1
+def room_1():
     print("You enter the room. What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
     print("3. Go back to the start room")
     
 def room_2(pl):
-    pl.current_room = 2
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
-    print("3. Attack the rat")
+    # if rat is alive
+    print("3. Attack the giant rat")
     print("4. Go back to the start room")
-    if pl.killed_skeleton():
+    if pl.killed_rat():
         print("5. Go to the next room")
 
-def room_3(pl):
-    pl.current_room = 3
+def room_3():
     print("You enter the room expecting an enemy and find none. What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
@@ -76,11 +118,13 @@ def room_3(pl):
     print("4. Go to the next room")
 
 def room_4(pl):
-    pl.current_room = 4
     print("You enter the room. There is a huge dragon in front of you! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
+    # if dragon is alive
     print("3. Attack the dragon")
+    # else
+    print("3. Go to the end room")
     print("4. Go back to the last room")
     if pl.has_key():
         print("5. ???")

@@ -1,4 +1,4 @@
-class Player:
+class player:
     def __init__(self):
         self.hp = 100
         self.atk = 2
