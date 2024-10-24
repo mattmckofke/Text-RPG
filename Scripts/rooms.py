@@ -1,5 +1,3 @@
-from Entities import player, giant_rat, dragon
-
 num_ops_list = [4, 3, 3, 4, 4]
 
 chosen_ops_list = {0: {1: "You inspect the room and see nothing useful.",
@@ -100,14 +98,14 @@ def room_1():
     print("2. Heal")
     print("3. Go back to the start room")
     
-def room_2(pl):
+def room_2(gr):
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
     # if rat is alive
     print("3. Attack the giant rat")
     print("4. Go back to the start room")
-    if pl.killed_rat():
+    if not gr.is_alive():
         print("5. Go to the next room")
 
 def room_3():
@@ -129,7 +127,6 @@ def room_4(pl):
     if pl.has_key():
         print("5. ???")
 
-def end_room(pl):
-    pl.current_room = 5
+def end_room():
     print("You have beaten the game! Congratulations!")
     print("Thanks for playing!")
