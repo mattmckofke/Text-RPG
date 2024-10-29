@@ -32,20 +32,25 @@ def update_chosen_ops_list(pl, gr, d):
     if not gr.is_alive():
         chosen_ops_list[2] = {1: "You inspect the room and see a door on the other side of it.",
                               2: "You drink a potion and heal yourself.",
-                              3: "You attack the giant rat. (How did it get so big?)",
                               4: "You turn back and head to the room you started in.",
                               5: "You go to the next room."}
-    if pl.has_key():
+    if pl.has_key() and d.is_alive():
         chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
                               2: "You drink a potion and heal yourself.",
                               3: "You attack the dragon. (HOW STRONG IS THIS THING???)",
                               4: "You go back to the last room.",
-                              5: "You use the key from the skeleton to unlock the door and walk through."}
-    if not d.is_alive():
+                              6: "You use the key from the skeleton to unlock the door and walk through."}
+    elif pl.has_key() and not d.is_alive():
         chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
                               2: "You drink a potion and heal yourself.",
-                              3: "You go to the end room.",
-                              4: "You go back to the last room."}
+                              4: "You go back to the last room.",
+                              5: "You go to the next room.",
+                              6: "You use the key from the skeleton to unlock the door and walk through."}
+    elif not pl.has_key() and not d.is_alive():
+        chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
+                              2: "You drink a potion and heal yourself.",
+                              4: "You go back to the last room.",
+                              5: "You go to the next room."}
 
 def update_current_room(pl, choice):
     if pl.current_room == 0:
@@ -98,14 +103,15 @@ def room_1():
     print("2. Heal")
     print("3. Go back to the start room")
     
-def room_2(gr):
+def room_2(pl, gr):
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
-    # if rat is alive
-    print("3. Attack the giant rat")
-    print("4. Go back to the start room")
-    if not gr.is_alive():
+    if gr.is_alive():
+        print("3. Attack the giant rat")
+        print("4. Go back to the start room")
+    else:
+        print("4. Go back to the start room")
         print("5. Go to the next room")
 
 def room_3():
@@ -115,18 +121,34 @@ def room_3():
     print("3. Go back to the last room")
     print("4. Go to the next room")
 
-def room_4(pl):
+def room_4(pl, d):
     print("You enter the room. There is a huge dragon in front of you! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
-    # if dragon is alive
-    print("3. Attack the dragon")
-    # else
-    print("3. Go to the end room")
-    print("4. Go back to the last room")
+    if d.is_alive():
+        print("3. Attack the dragon")
+        print("4. Go back to the last room")
+    else:
+        print("4. Go back to the last room")
+        print("5. Go to the next room")
     if pl.has_key():
-        print("5. ???")
+        print("6. ???")
 
 def end_room():
     print("You have beaten the game! Congratulations!")
     print("Thanks for playing!")
+    
+# LOGIC FUNCTIONS
+#-----------------
+
+def logic_start(pl, choice):
+    print(chosen_ops_list[0][choice-1])
+    if choice == 2 and pl.hp < 100:
+        pl.potion_heal()
+    
+
+def logic_1(pl, choice):
+    print(chosen_ops_list[1][choice-1])
+    if choice == 2 and pl.hp < 100:
+        pl.potion_heal()
+    
