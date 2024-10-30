@@ -46,17 +46,17 @@ def run_game():
             case 1:
                 rms_helpers[1](pl, choice)
             case 2:
-                rms_helpers[2](pl, gr, choice)
+                rms_helpers[2](pl, choice)
             case 3:
                 rms_helpers[3](pl, choice)
             case 4:
-                rms_helpers[4](pl, d, choice)
+                rms_helpers[4](pl, choice)
             case _:
                 rms[5]()
         
         # update dictionaries
-        rooms.update_ops_list(pl, gr, d)
-        rooms.update_chosen_ops_list(pl, gr, d)
+        rooms.update_ops_list(pl)
+        rooms.update_chosen_ops_list(pl)
         
         # update current room
         rooms.update_current_room(pl, choice)
