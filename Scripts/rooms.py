@@ -20,6 +20,7 @@ chosen_ops_list = {0: {1: "You inspect the room and see nothing useful.",
                        4: "You go back to the last room."}
                    }
 
+# update with new rat and dragon functionality
 def update_ops_list(pl, gr, d):
     if not gr.is_alive():
         num_ops_list[2] = 4
@@ -28,6 +29,7 @@ def update_ops_list(pl, gr, d):
     if not d.is_alive():
         num_ops_list[4] = 3
         
+# update with new rat and dragon functionality
 def update_chosen_ops_list(pl, gr, d):
     if not gr.is_alive():
         chosen_ops_list[2] = {1: "You inspect the room and see a door on the other side of it.",
@@ -75,7 +77,7 @@ def update_room_1(pl, choice):
         pl.current_room = 0
 
 def update_room_2(pl, choice):
-    if choice == 3:
+    if choice == 4:
         pl.current_room = 0
     elif choice == 5:
         pl.current_room = 3
@@ -102,7 +104,8 @@ def room_1():
     print("1. Inspect the room")
     print("2. Heal")
     print("3. Go back to the start room")
-    
+
+# update with new rat functionality
 def room_2(gr):
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
@@ -121,6 +124,7 @@ def room_3():
     print("3. Go back to the last room")
     print("4. Go to the next room")
 
+# update with new dragon functionality
 def room_4(pl, d):
     print("You enter the room. There is a huge dragon in front of you! What do you do?")
     print("1. Inspect the room")
@@ -152,6 +156,7 @@ def logic_1(pl, choice):
     if choice == 2:
         pl.potion_heal()
 
+# update with new rat functionality
 def logic_2(pl, gr, choice):
     print(chosen_ops_list.get(2).get(choice))
     if choice == 2:
@@ -164,6 +169,7 @@ def logic_3(pl, choice):
     if choice == 2:
         pl.potion_heal()
 
+# update with new dragon functionality
 def logic_4(pl, d, choice):
     print(chosen_ops_list.get(4).get(choice))
     if choice == 2:

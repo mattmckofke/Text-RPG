@@ -1,17 +1,14 @@
-from Scripts import rooms
-from Scripts.Entities import player, giant_rat, dragon
+from Scripts import rooms, player
 
 pl = player.player()
-gr = giant_rat.giant_rat()
-d = dragon.dragon()
 
 # dictionary tied to functions to handle all rooms
 rms = {
         0: rooms.start_room,
         1: rooms.room_1,
-        2: lambda: rooms.room_2(gr),
+        2: rooms.room_2,
         3: rooms.room_3,
-        4: lambda: rooms.room_4(pl, d),
+        4: lambda: rooms.room_4(pl),
         5: rooms.end_room
     }    
 

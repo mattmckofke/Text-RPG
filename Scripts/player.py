@@ -6,6 +6,8 @@ class player:
         self.last_room = 0
         self.key_found = False
         self.has_won = False
+        self.rat_hits = 0
+        self.dragon_hits = 0
 
     def set_hp(self, n):
         self.hp = n
@@ -28,11 +30,26 @@ class player:
     def set_winner(self, b):
         self.has_won = b
 
-    def attack_rat(self, gr):
-        gr.set_hp(gr.hp - self.atk)
+    def attack_rat(self):
+        self.rat_hits += 1
+        if self.rat_hits == 3:
+            print("You killed the rat!")
+        elif self.rat_hits < 3:
+            print("You attacked the rat!")
     
-    def attack_dragon(self, d):
-        d.set_hp(d.hp - self.atk)
+    def attack_dragon(self):
+        self.dragon_hits += 1
+        if self.dragon_hits == 10:
+            print("You killed the dragon!")
+        elif self.dragon_hits < 10:
+            print("You attacked the dragon!")
+            
+    # add functions to handle rat and dragon attacking player
+    def rat_attack(self):
+        self.hp -= 5
+        print("The rat attacked you for 5 hit points!")
+        if not self.is_alive():
+            print("You died to the rat!")
 
     def potion_heal(self):
         if self.hp == 100:
