@@ -103,7 +103,7 @@ def room_1():
     print("2. Heal")
     print("3. Go back to the start room")
     
-def room_2(pl, gr):
+def room_2(gr):
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
@@ -142,13 +142,33 @@ def end_room():
 #-----------------
 
 def logic_start(pl, choice):
-    print(chosen_ops_list[0][choice-1])
-    if choice == 2 and pl.hp < 100:
+    print(chosen_ops_list.get(0).get(choice))
+    if choice == 2:
         pl.potion_heal()
     
 
 def logic_1(pl, choice):
-    print(chosen_ops_list[1][choice-1])
-    if choice == 2 and pl.hp < 100:
+    print(chosen_ops_list.get(1).get(choice))
+    if choice == 2:
         pl.potion_heal()
-    
+
+def logic_2(pl, gr, choice):
+    print(chosen_ops_list.get(2).get(choice))
+    if choice == 2:
+        pl.potion_heal()
+    if choice == 3 and gr.is_alive():
+        pl.attack_rat(gr)
+        
+def logic_3(pl, choice):
+    print(chosen_ops_list.get(3).get(choice))
+    if choice == 2:
+        pl.potion_heal()
+
+def logic_4(pl, d, choice):
+    print(chosen_ops_list.get(4).get(choice))
+    if choice == 2:
+        pl.potion_heal()
+    if choice == 3 and d.is_alive():
+        pl.attack_dragon(d)
+    if choice == 6 and pl.has_key():
+        print("You unlock the door and walk through. There was nothing here, what a waste of a secret. You immediately leave the room, feeling disappointed.")

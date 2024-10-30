@@ -29,7 +29,7 @@ class player:
         self.has_won = b
 
     def attack_rat(self, gr):
-        gr.set_hp(gr.hp() - self.atk)
+        gr.set_hp(gr.hp - self.atk)
     
     def attack_dragon(self, d):
         d.set_hp(d.hp - self.atk)
