@@ -6,7 +6,7 @@ pl = player.player()
 rms = {
         0: rooms.start_room,
         1: rooms.room_1,
-        2: rooms.room_2,
+        2: lambda: rooms.room_2(pl),
         3: rooms.room_3,
         4: lambda: rooms.room_4(pl),
         5: rooms.end_room

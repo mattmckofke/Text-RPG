@@ -20,35 +20,33 @@ chosen_ops_list = {0: {1: "You inspect the room and see nothing useful.",
                        4: "You go back to the last room."}
                    }
 
-# update with new rat and dragon functionality
-def update_ops_list(pl, gr, d):
-    if not gr.is_alive():
-        num_ops_list[2] = 4
+def update_ops_list(pl):
+    if not pl.rat_is_alive():
+        num_ops_list[2] = 5
     if pl.has_key():
         num_ops_list[4] = 5
-    if not d.is_alive():
+    if not pl.dragon_is_alive():
         num_ops_list[4] = 3
         
-# update with new rat and dragon functionality
-def update_chosen_ops_list(pl, gr, d):
-    if not gr.is_alive():
+def update_chosen_ops_list(pl):
+    if not pl.rat_is_alive():
         chosen_ops_list[2] = {1: "You inspect the room and see a door on the other side of it.",
                               2: "You drink a potion and heal yourself.",
                               4: "You turn back and head to the room you started in.",
                               5: "You go to the next room."}
-    if pl.has_key() and d.is_alive():
+    if pl.has_key() and pl.dragon_is_alive():
         chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
                               2: "You drink a potion and heal yourself.",
                               3: "You attack the dragon. (HOW STRONG IS THIS THING???)",
                               4: "You go back to the last room.",
                               6: "You use the key from the skeleton to unlock the door and walk through."}
-    elif pl.has_key() and not d.is_alive():
+    elif pl.has_key() and not pl.dragon_is_alive():
         chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
                               2: "You drink a potion and heal yourself.",
                               4: "You go back to the last room.",
                               5: "You go to the next room.",
                               6: "You use the key from the skeleton to unlock the door and walk through."}
-    elif not pl.has_key() and not d.is_alive():
+    elif not pl.has_key() and not pl.dragon_is_alive():
         chosen_ops_list[4] = {1: "You inspect the room and see a door at the far end of it. You need to get over there!",
                               2: "You drink a potion and heal yourself.",
                               4: "You go back to the last room.",
@@ -105,12 +103,11 @@ def room_1():
     print("2. Heal")
     print("3. Go back to the start room")
 
-# update with new rat functionality
-def room_2(gr):
+def room_2(pl):
     print("You enter the room. There is a giant rat blocking your way! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
-    if gr.is_alive():
+    if pl.rat_is_alive():
         print("3. Attack the giant rat")
         print("4. Go back to the start room")
     else:
@@ -124,12 +121,11 @@ def room_3():
     print("3. Go back to the last room")
     print("4. Go to the next room")
 
-# update with new dragon functionality
-def room_4(pl, d):
+def room_4(pl):
     print("You enter the room. There is a huge dragon in front of you! What do you do?")
     print("1. Inspect the room")
     print("2. Heal")
-    if d.is_alive():
+    if pl.dragon_is_alive():
         print("3. Attack the dragon")
         print("4. Go back to the last room")
     else:
@@ -153,16 +149,18 @@ def logic_start(pl, choice):
 
 def logic_1(pl, choice):
     print(chosen_ops_list.get(1).get(choice))
+    if choice == 1:
+        pl.set_key_found(True)
     if choice == 2:
         pl.potion_heal()
 
 # update with new rat functionality
-def logic_2(pl, gr, choice):
+def logic_2(pl, choice):
     print(chosen_ops_list.get(2).get(choice))
     if choice == 2:
         pl.potion_heal()
-    if choice == 3 and gr.is_alive():
-        pl.attack_rat(gr)
+    if choice == 3 and pl.rat_is_alive():
+        pl.attack_rat()
         
 def logic_3(pl, choice):
     print(chosen_ops_list.get(3).get(choice))
@@ -170,11 +168,11 @@ def logic_3(pl, choice):
         pl.potion_heal()
 
 # update with new dragon functionality
-def logic_4(pl, d, choice):
+def logic_4(pl, choice):
     print(chosen_ops_list.get(4).get(choice))
     if choice == 2:
         pl.potion_heal()
-    if choice == 3 and d.is_alive():
-        pl.attack_dragon(d)
+    if choice == 3 and pl.dragon_is_alive():
+        pl.attack_dragon()
     if choice == 6 and pl.has_key():
         print("You unlock the door and walk through. There was nothing here, what a waste of a secret. You immediately leave the room, feeling disappointed.")
