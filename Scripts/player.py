@@ -30,15 +30,11 @@ class player:
         self.rat_hits += 1
         if self.rat_hits == 3:
             print("You killed the rat!")
-        elif self.rat_hits < 3:
-            print("You attacked the rat!")
     
     def attack_dragon(self):
         self.dragon_hits += 1
         if self.dragon_hits == 10:
             print("You killed the dragon!")
-        elif self.dragon_hits < 10:
-            print("You attacked the dragon!")
             
     # add functions to handle rat and dragon attacking player
     # currently not used

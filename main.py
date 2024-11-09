@@ -60,5 +60,7 @@ def run_game():
         
         # update current room
         rooms.update_current_room(pl, choice)
+        print("ROOM UPDATED: ", pl.current_room)
+    rms[5]()
 
 run_game()
